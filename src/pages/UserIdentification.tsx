@@ -89,6 +89,10 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
 
+  emoji: {
+    fontSize: 44
+  },
+
   title: {
     fontSize: 24,
     lineHeight: 32,
@@ -96,10 +100,6 @@ const styles = StyleSheet.create({
     color: colors.heading,
     fontFamily: fonts.heading,
     marginTop: 20
-  },
-
-  emoji: {
-    fontSize: 44
   },
 
   input: {
