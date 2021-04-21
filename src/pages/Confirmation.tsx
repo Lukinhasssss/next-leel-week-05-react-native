@@ -1,11 +1,18 @@
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
+import { useNavigation } from '@react-navigation/core'
 
 import colors from '../../styles/colors'
 import fonts from '../../styles/fonts'
 import { Button } from '../components/Button'
 
 export default function Confirmation() {
+  const navigation = useNavigation()
+
+  const handleMoveOn = () => {
+    navigation.navigate('PlantSelect')
+  }
+
   return (
     <View style={ styles.container }>
       <View style={ styles.content }>
@@ -23,7 +30,10 @@ export default function Confirmation() {
         </Text>
 
         <View style={ styles.footer }>
-          <Button title={ 'Começar' } />
+          <Button
+            title={ 'Começar' }
+            onPress={ handleMoveOn }
+          />
         </View>
       </View>
     </View>
