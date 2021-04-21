@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { FlatList, StyleSheet, Text, View } from 'react-native'
+import { ActivityIndicator, FlatList, StyleSheet, Text, View } from 'react-native'
 
 import { Header } from '../components/Header'
 import { EnvironmentButton } from '../components/EnvironmentButton'
@@ -35,6 +35,10 @@ export function PlantSelect() {
   const [environmentSelected, setEnvironmentSelected] = useState('all')
   const [isLoading, setIsLoading] = useState(true)
 
+  const [page, setPage] = useState(1)
+  const [loadingMore, setLoadingMore] = useState(false)
+  const [loadedAll, setLoadedAll] = useState(false)
+
   function handleEnvironmentSelected(environment: string) {
     setEnvironmentSelected(environment)
 
@@ -44,6 +48,33 @@ export function PlantSelect() {
     const filtered = plants?.filter(plant => plant.environments.includes(environment))
 
     setFilteredPlants(filtered)
+  }
+
+  async function fetchPlants() {
+    const { data } = await api.get(`plants?_sort=name&order=asc&_page=${page}&_limit=8`)
+
+    if (!data)
+      return setIsLoading(true)
+
+    if (page > 1) {
+      setPlants(oldValue => [...oldValue, ...data])
+      setFilteredPlants(oldValue => [...oldValue, ...data])
+    } else {
+      setPlants(data)
+      setFilteredPlants(data)
+    }
+
+    setIsLoading(false)
+    setLoadingMore(false)
+  }
+
+  function handleFetchMore(distance: number) {
+    if (distance < 1)
+      return
+
+    setLoadingMore(true)
+    setPage(oldValue => oldValue + 1)
+    fetchPlants()
   }
 
   useEffect(() => {
@@ -62,13 +93,6 @@ export function PlantSelect() {
   }, [])
 
   useEffect(() => {
-    async function fetchPlants() {
-      const { data } = await api.get('plants?_sort=name&order=asc')
-      setPlants(data)
-      setFilteredPlants(data)
-      setIsLoading(false)
-    }
-
     fetchPlants()
   }, [])
 
@@ -116,6 +140,9 @@ export function PlantSelect() {
           )}
           showsVerticalScrollIndicator={ false }
           numColumns={ 2 }
+          onEndReachedThreshold={ 0.1 } // 0.1 --> Quando o usuárioo chegar a 10% do final da tela
+          onEndReached={({ distanceFromEnd }) => handleFetchMore(distanceFromEnd)}
+          ListFooterComponent={ loadingMore ? <ActivityIndicator color={ colors.green } /> : <></> }
         />
       </View>
     </View>
