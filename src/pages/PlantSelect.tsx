@@ -1,32 +1,20 @@
 import React, { useEffect, useState } from 'react'
 import { ActivityIndicator, FlatList, StyleSheet, Text, View } from 'react-native'
+import { useNavigation } from '@react-navigation/core'
 
+import api from '../services/api'
 import { Header } from '../components/Header'
 import { EnvironmentButton } from '../components/EnvironmentButton'
 import { PlantCardPrimary } from '../components/PlantCardPrimary'
-import api from '../services/api'
 import { Load } from '../components/Load'
+import { PlantProps } from '../libs/storage'
 
 import colors from '../../styles/colors'
 import fonts from '../../styles/fonts'
-import { useNavigation } from '@react-navigation/core'
 
-type EnvironmentProps = {
+interface EnvironmentProps {
   key: string
   title: string
-}
-
-type PlantProps = {
-  id: string,
-  name: string,
-  about: string,
-  water_tips: string,
-  photo: string,
-  environments: [string],
-  frequency: {
-    times: number,
-    repeat_every: string
-  }
 }
 
 export function PlantSelect() {

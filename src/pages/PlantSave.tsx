@@ -7,24 +7,14 @@ import DateTimePicker, { Event } from '@react-native-community/datetimepicker';
 import { format, isBefore } from 'date-fns'
 
 import { Button } from '../components/Button'
+import { loadPlants, PlantProps, savePlant } from '../libs/storage'
 
 import waterdrop from '../assets/waterdrop.png'
 import colors from '../../styles/colors'
 import fonts from '../../styles/fonts'
 
-type Params = {
-  plant: {
-    id: string,
-    name: string,
-    about: string,
-    water_tips: string,
-    photo: string,
-    environments: [string],
-    frequency: {
-      times: number,
-      repeat_every: string
-    }
-  }
+interface Params {
+  plant: PlantProps
 }
 
 export function PlantSave() {
@@ -49,6 +39,18 @@ export function PlantSave() {
   function handleOpenDatetimePickerForAndroid() {
     setIsSelected(true)
     setShowDatePicker(oldState => !oldState)
+  }
+
+  async function handleSave() {
+    try {
+      await savePlant({
+        ...plant,
+        dateTimeNotification: selectedDateTime
+      })
+    }
+    catch {
+      Alert.alert('Não foi possível salvar! 😭')
+    }
   }
 
   return (
@@ -100,7 +102,7 @@ export function PlantSave() {
             >
               <Text style={ styles.dateTimePickerText }>
                 {/* {`Mudar ${format(selectedDateTime, 'HH:mm')}`} */}
-                { isSelected ? format(selectedDateTime, 'HH:mm') : `Escolher Horário`} 
+                { isSelected ? format(selectedDateTime, 'HH:mm') : `Escolher Horário`}
               </Text>
             </TouchableOpacity>
           )
@@ -108,7 +110,7 @@ export function PlantSave() {
 
         <Button
           title="Cadastrar planta"
-          onPress={ () => {} }
+          onPress={ handleSave }
         />
       </View>
     </ScrollView>
