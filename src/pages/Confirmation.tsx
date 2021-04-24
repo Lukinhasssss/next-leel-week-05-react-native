@@ -46,7 +46,7 @@ export default function Confirmation() {
 
         <View style={ styles.footer }>
           <Button
-            title={ 'Começar' }
+            title={ buttonTitle }
             onPress={ handleMoveOn }
           />
         </View>

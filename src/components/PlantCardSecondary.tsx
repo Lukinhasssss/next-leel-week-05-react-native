@@ -42,7 +42,7 @@ export function PlantCardSecondary({ data, ...rest }: PlantProps) {
 const styles = StyleSheet.create({
   container: {
     width: '100%',
-    paddingHorizontal: 10,
+    paddingHorizontal: 20,
     paddingVertical: 25,
     borderRadius: 20,
     flexDirection: 'row',
