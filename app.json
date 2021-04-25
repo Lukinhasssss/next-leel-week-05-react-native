@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "plant_manager",
+    "name": "Plant Manager",
     "slug": "plant_manager",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -17,16 +17,17 @@
       "**/*"
     ],
     "ios": {
+      "bundleIdentifier": "com.lucasmonteiro.plantmanager",
+      "buildNumber": "1.0.0",
       "supportsTablet": true
     },
     "android": {
+      "package": "com.lucasmonteiro.plantmanager",
+      "versionCode": 1,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       }
-    },
-    "web": {
-      "favicon": "./assets/favicon.png"
     }
   }
 }
